@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {getAuth, signInWithEmailAndPassword} from 'firebase/auth'
+import {getAuth, signInWithEmailAndPassword, sendPasswordResetEmail} from 'firebase/auth'
 import app from './firebase.config';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -27,6 +27,18 @@ const navigate = useNavigate()
        
     }
 
+    const passwordReset = () =>{
+        const auth = getAuth(app)
+        sendPasswordResetEmail(auth, userEmail)
+        .then(() =>{
+            alert("Password Reset Link send in your email")
+        })
+        .catch((error) =>{
+            const errorCode = error.code;
+            const errorMessage = error.message;
+        })
+    }
+
     return (
         <div>
       <form onSubmit={handleSubmit}>
@@ -39,6 +51,7 @@ const navigate = useNavigate()
     <label htmlFor="password">Password:</label>
     <input onChange={(e) => setUserPassword(e.target.value)} type="password" id="password" name="password" required/>
   </div>
+  <Link to={'/forget'}>Forget Password</Link>
   <button type="submit">Login</button>
 </form>
 New User? <Link to={'/registration'}>Register</Link>

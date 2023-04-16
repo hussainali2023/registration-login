@@ -17,10 +17,12 @@ const navigate = useNavigate()
         .then(() =>{
             
             console.log("Name Update successfully")
+            alert("Name Update Successfull")
 
             updatePassword(auth.currentUser, updateUserPassword)
         .then(() =>{
             console.log('Password Updated Successfully')
+            alert("Password Update Successfull")
         })
         .catch((error) =>{
             console.log(error)
@@ -30,17 +32,11 @@ const navigate = useNavigate()
         .catch((error) =>{
             console.log(error)
         })
-        
-        
-        
-
-
     }
     return (
-        <div>
-         <h1>This is Update User Details Page</h1>   
+        <div> 
          <form onSubmit={handleSubmit}>
-  <h2>Registration Form</h2>
+  <h2>Update Name and Password</h2>
   <div className="form-group">
     <label htmlFor="name">Name:</label>
     <input onChange={(e) => setUpdateName(e.target.value)} type="text" id="name" name="name" />
@@ -49,7 +45,7 @@ const navigate = useNavigate()
     <label htmlFor="password">Password:</label>
     <input onChange={(e) => setUpdateUserPassword(e.target.value)} type="password" id="password" name="password"/>
   </div>
-  <button type="submit">Register</button>
+  <button type="submit">Update</button>
 </form>
         </div>
     );

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import {getAuth, onAuthStateChanged} from 'firebase/auth'
+import {getAuth, onAuthStateChanged, signOut} from 'firebase/auth'
 import app from './firebase.config';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import UpdateDetails from './UpdateDetails';
 const Home = () => {
     const [currentUserEmail, setCurrentUserEmail] = useState('')
     const [currentUserName, setCurrentUserName] = useState('')
+    const navigate = useNavigate()
     const auth = getAuth(app)
     onAuthStateChanged(auth, (user) =>{
         if(user){
@@ -18,15 +19,32 @@ const Home = () => {
             <p>User not available</p>
         }
     })
+const logout = () =>{
+    signOut(auth)
+    .then((data) =>{
+        alert("Signout Successful")
+        console.log(data)
+        navigate('/login')
+    })
+    .catch((error) =>{
+        alert(error)
+    })
+    
+}
 
     return (
         <div>
             
-            <h1>This is Home Page</h1>
-            Name: {currentUserName} <br />
-            Email: {currentUserEmail}  <br />
-If you want to update your details Please click here <Link to={'/update'}>Update Details</Link>
-<UpdateDetails/>
+          
+           
+                Name: {currentUserName} <br />
+                Email: {currentUserEmail}  <br />
+                <button onClick={logout}>Logout</button>
+                <UpdateDetails/>                
+            
+             
+           
+          
         </div>
     );
 };
