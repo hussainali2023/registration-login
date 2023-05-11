@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {getAuth, onAuthStateChanged, signOut} from 'firebase/auth'
-import app from './firebase.config';
 import { Link, useNavigate } from 'react-router-dom';
-import UpdateDetails from './UpdateDetails';
+import UpdateDetails from '../Update/UpdateDetails';
+import app from '../firebase.config';
+
 const Home = () => {
     const [currentUserEmail, setCurrentUserEmail] = useState('')
     const [currentUserName, setCurrentUserName] = useState('')
+    const [userData, setUserData] = useState()
     const navigate = useNavigate()
     const auth = getAuth(app)
     onAuthStateChanged(auth, (user) =>{
@@ -32,6 +34,16 @@ const logout = () =>{
     
 }
 
+// console.log(currentUserEmail)
+
+  useEffect(() => {
+    fetch(`http://localhost:5000/user/${currentUserEmail}`)
+      .then(response => response.json())
+      .then(data => setUserData(data))
+      .catch(error => console.error(error));
+  }, []);
+ 
+// console.log(userData)
     return (
         <div>
             

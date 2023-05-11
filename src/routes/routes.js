@@ -1,8 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
-import Registration from "./Registration";
-import Login from "./Login";
-import Home from "./Home";
-import Forget from "./Forget";
+import Registration from "../Registration/Registration";
+import Login from "../Login/Login"
+import Home from '../Home/Home'
+import Forget from '../Login/Forget'
 
 
 

@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import './Registration.css'
 
 import {getAuth, createUserWithEmailAndPassword, updateProfile} from 'firebase/auth'
-import app from './firebase.config';
+import app from '../firebase.config';
 
 const Registration = () => {
     const [userName, setUserName] = useState('')
@@ -17,11 +17,15 @@ const navigate= useNavigate()
     createUserWithEmailAndPassword(auth, userEmail, userPassword)
     .then((userCredential) =>{
         const user = userCredential.user;
+        saveUsersInDatabase(userName, userEmail)
         if(auth.currentUser){
             updateProfile(auth.currentUser, {
-                displayName: userName
+                displayName: userName,
+                
+                
             })
             .then(() =>{
+                
                 navigate('/home')
                 console.log("user Update successfully")
             
@@ -48,7 +52,21 @@ const navigate= useNavigate()
     // }
         }
 
-       
+        const saveUsersInDatabase = (name, email) => {
+            const user = { name: name, email: email };
+            // console.log(user);
+            fetch("http://localhost:5000/adduser", {
+              method: "POST",
+              headers: {
+                "content-type": "application/json",
+              },
+              body: JSON.stringify(user),
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                console.log(data);
+              });
+          };
 
    
     return (

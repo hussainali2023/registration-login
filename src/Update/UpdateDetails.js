@@ -1,6 +1,6 @@
 import { getAuth, updatePassword, updateProfile } from 'firebase/auth';
 import React, { useState } from 'react';
-import app from './firebase.config';
+import app from '../firebase.config';
 import { useNavigate } from 'react-router-dom';
 
 const UpdateDetails = () => {
@@ -15,6 +15,7 @@ const navigate = useNavigate()
             displayName: updateName
         })
         .then(() =>{
+            updateUser(updateName)
             
             console.log("Name Update successfully")
             alert("Name Update Successfull")
@@ -33,6 +34,23 @@ const navigate = useNavigate()
             console.log(error)
         })
     }
+
+    const updateUser = (name, email) => {
+        const user = { name: name };
+        // console.log(user);
+        fetch(`http://localhost:5000/update/${email}`, {
+          method: "PUT",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(user),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+          });
+      };
+
     return (
         <div> 
          <form onSubmit={handleSubmit}>
